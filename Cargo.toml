@@ -1,0 +1,43 @@
+[package]
+authors = ["agoraq"]
+edition = "2021"
+name = "agoraq"
+version = "0.2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+opt-level = 3
+overflow-checks = true
+panic = 'abort'
+rpath = false
+
+[features]
+default = []
+# for quicker tests, cargo test --lib
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+
+[dependencies]
+cosmwasm-schema = "1.0.0"
+cosmwasm-std = { git = "https://github.com/scrtlabs/cosmwasm", branch = "secret", features = [
+    "random",
+] }
+cosmwasm-storage = { git = "https://github.com/scrtlabs/cosmwasm", branch = "secret" }
+secret-toolkit = { git = "https://github.com/scrtlabs/secret-toolkit", branch = "0.9", features = [
+  "permit",
+] }
+schemars = {version = "0.8.11"}
+serde = {version = "1.0"}
+thiserror = {version = "1.0"}
+base64 = "0.13.0"
+
+[[bin]]
+name = "schema"
+required-features = ["schema"]
